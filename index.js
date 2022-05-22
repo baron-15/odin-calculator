@@ -3,38 +3,58 @@ let secondNumber = 0;
 let numberContainer = 0;
 let operator = 'plus';
 let display = 0;
+const round = 10000;
 
-const result = document.querySelector(".display ");
+const resultDisplay = document.querySelector('.display');
+const result = document.createElement('div');
+function dp(displayText) {
+    result.textContent = displayText;
+    resultDisplay.appendChild(result);
+}
+dp(display);
+
 const buttons1 = Array.from(document.querySelectorAll('.number'));
-buttons1.forEach(boxClass => boxClass.addEventListener('click',bindSecondNumber)); 
+buttons1.forEach(number => number.addEventListener('click',bindSecondNumber)); 
 const buttons2 = Array.from(document.querySelectorAll('.operator'));
-buttons2.forEach(boxClass => boxClass.addEventListener('click',performOperator)); 
+buttons2.forEach(operator => operator.addEventListener('click',performOperator)); 
 const buttons3 = Array.from(document.querySelectorAll('.feature'));
-buttons3.forEach(boxClass => boxClass.addEventListener('click',performFeature)); 
-const buttons4 = Array.from(document.querySelectorAll('.feature2'));
-buttons4.forEach(boxClass => boxClass.addEventListener('click', performFeature2)); 
+buttons3.forEach(feature => feature.addEventListener('click',performFeature));
 
 function bindSecondNumber(current2ndNumber) {
-    numberContainer = numberContainer*10 + parseInt(current2ndNumber.target.id);
+    if (numberContainer === 0 && current2ndNumber.target.id != '.') {
+        numberContainer = current2ndNumber.target.id;
+    }
+    else {
+        numberContainer = numberContainer.toString() + current2ndNumber.target.id;
+    }
+
+
     display = numberContainer;
-    console.log(`Display as 2ndNumber ${display}`);    
+    if (!checkTwoDots(numberContainer.toString())){
+        setError();
+        return;
+    }
+    dp(display);
 }
 
 function performOperator(currentOperator) {
-    console.log(currentOperator.target.id);
     secondNumber = numberContainer;
     switch (operator) {
         case "multiply":
-            display = firstNumber * secondNumber;
+            display = (firstNumber * round) * (secondNumber * round)/round/round;
             break;
         case "divide":
-            display = firstNumber / secondNumber;
+            display = (firstNumber*round) / (secondNumber*round);
+            if (display == Infinity){
+                setError();
+                return;
+            }
             break;
         case "plus":
-            display = firstNumber + secondNumber;
+            display = ((firstNumber*round) + (secondNumber*round))/round;
             break;
         case "minus":
-            display = firstNumber - secondNumber;
+            display = (firstNumber*round - secondNumber*round)/round;
             break;
         case "equal":
             firstNumber = 0;
@@ -43,15 +63,20 @@ function performOperator(currentOperator) {
     operator = currentOperator.target.id;
     firstNumber = display;
     numberContainer = 0;
-    console.log(`Display as calc ${display}`);
+    dp(display);
     }
 
 function performFeature(currentFeature) {
     switch (currentFeature.target.id) {
         case "clear":
             setDefault();
+            break;
         case "flip":
             numberFlip();
+            break;
+        case "percent":
+            numberPercent();
+            break;
     }
     }
 
@@ -61,15 +86,38 @@ function setDefault() {
     numberContainer = 0;
     display = 0;
     operator = 'plus';
-    console.log(`Display ${display}`);
+    dp(display);
+}
+
+function setError() {
+    firstNumber = 0;
+    secondNumber = 0;
+    numberContainer = 0;
+    display = "error";
+    operator = 'plus';
+    dp(display);
 }
 
 function numberFlip() {
     display *= -1;
     numberContainer = display;
-    console.log(`Display flip ${display}`);
+    dp(display);
 }
 
-function performFeature2() {
-    
+function numberPercent() {
+    display = (display*round)/100/round;
+    numberContainer = display;
+    dp(display);
+}
+
+function checkTwoDots(checkVal) {
+    let dots = 0;
+    for (let i = 0; i < checkVal.length; i++) {
+    if (checkVal.charAt(i) == ".") {
+        dots++;
+    }
+    }
+    if (dots < 2) {
+        return true;
+    }
 }
