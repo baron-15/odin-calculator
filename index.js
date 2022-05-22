@@ -8,6 +8,10 @@ const round = 10000;
 const resultDisplay = document.querySelector('.display');
 const result = document.createElement('div');
 function dp(displayText) {
+    if (display >= 100000000 || display <= -100000000) {
+        setError();
+        return;
+    }
     let trimmedDisplay = displayText.toString().substring(0,8);
     result.textContent = trimmedDisplay;
     resultDisplay.appendChild(result);
@@ -35,6 +39,7 @@ function bindSecondNumber(current2ndNumber) {
         setError();
         return;
     }
+    
     dp(display);
 }
 
@@ -65,7 +70,7 @@ function performOperator(currentOperator) {
     firstNumber = display;
     numberContainer = 0;
     dp(display);
-    }
+}
 
 function performFeature(currentFeature) {
     switch (currentFeature.target.id) {
