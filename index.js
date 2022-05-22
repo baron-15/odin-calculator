@@ -29,6 +29,19 @@ buttons2.forEach(operator => operator.addEventListener('click',performOperator))
 const buttons3 = Array.from(document.querySelectorAll('.feature'));
 buttons3.forEach(feature => feature.addEventListener('click',performFeature));
 
+const buttonsAll = Array.from(document.querySelectorAll('.number, .operator, .feature'));
+buttonsAll.forEach(displayAll => displayAll.addEventListener('click',addTransition));
+buttonsAll.forEach(displayAll => displayAll.addEventListener('transitionend',removeTransition));
+
+function addTransition(e) {
+    e.target.classList.add('playing');
+  }
+
+function removeTransition(e) {
+    if (e.propertyName !== 'transform') return;
+    e.target.classList.remove('playing');
+  }
+
 function bindSecondNumber(current2ndNumber) {
     if (numberContainer === 0 && current2ndNumber.target.id != '.') {
         numberContainer = current2ndNumber.target.id;
