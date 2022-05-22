@@ -13,6 +13,10 @@ function dp(displayText) {
         return;
     }
     let trimmedDisplay = displayText.toString().substring(0,8);
+    if (trimmedDisplay.charAt(trimmedDisplay.length-1)=='.')
+    {
+        trimmedDisplay = trimmedDisplay.substring(0,trimmedDisplay.length-1);
+    }
     result.textContent = trimmedDisplay;
     resultDisplay.appendChild(result);
 }
