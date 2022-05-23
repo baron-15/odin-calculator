@@ -8,11 +8,17 @@ const round = 10000;
 const resultDisplay = document.querySelector('.display');
 const result = document.createElement('div');
 function dp(displayText) {
-    if (display >= 1000000000 || display <= -1000000000) {
+    if (display >= 100000000 || display <= -100000000) {
         setError();
         return;
     }
-    let trimmedDisplay = displayText.toString().substring(0,10);
+    if (displayText.charAt(0)=='-') {
+        let trimmedDisplay = displayText.toString().substring(0,10);
+    }
+    else {
+            let trimmedDisplay = displayText.toString().substring(0,9);
+    }
+
     if (trimmedDisplay.charAt(trimmedDisplay.length-1)=='.')
     {
         trimmedDisplay = trimmedDisplay.substring(0,trimmedDisplay.length-1);
