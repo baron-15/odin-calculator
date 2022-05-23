@@ -12,7 +12,7 @@ function dp(displayText) {
         setError();
         return;
     }
-    if (displayText.charAt(0)=='-') {
+    if (displayText < 0) {
         let trimmedDisplay = displayText.toString().substring(0,10);
     }
     else {
