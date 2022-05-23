@@ -12,11 +12,12 @@ function dp(displayText) {
         setError();
         return;
     }
+    let trimmedDisplay = 0;
     if (displayText < 0) {
-        let trimmedDisplay = displayText.toString().substring(0,10);
+        trimmedDisplay = displayText.toString().substring(0,10);
     }
     else {
-            let trimmedDisplay = displayText.toString().substring(0,9);
+        trimmedDisplay = displayText.toString().substring(0,9);
     }
 
     if (trimmedDisplay.charAt(trimmedDisplay.length-1)=='.')
